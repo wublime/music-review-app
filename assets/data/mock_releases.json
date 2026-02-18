@@ -6,7 +6,7 @@
       "artist_name": "Kanye West & Ty Dolla $ign",
       "artwork_url": "https://picsum.photos/seed/vultures2/400/400",
       "release_type": "album",
-      "target_release_date": "2026-02-10T00:00:00Z",
+      "target_release_date": "2026-11-01T00:00:00Z",
       "like_count": 12400,
       "comment_count": 892,
       "share_count": 2103
@@ -28,7 +28,7 @@
       "artist_name": "Test Artist",
       "artwork_url": "https://picsum.photos/seed/droptest/400/400",
       "release_type": "single",
-      "target_release_date": "2026-02-13T20:08:00Z",
+      "target_release_date": "2026-02-18T23:59:00Z",
       "like_count": 312,
       "comment_count": 44,
       "share_count": 28
@@ -39,7 +39,7 @@
       "artist_name": "Taylor Swift",
       "artwork_url": "https://picsum.photos/seed/ttpd/400/400",
       "release_type": "album",
-      "target_release_date": "2026-02-16T00:00:00Z",
+      "target_release_date": "2026-09-01T00:00:00Z",
       "like_count": 67800,
       "comment_count": 5102,
       "share_count": 15200
@@ -50,10 +50,43 @@
       "artist_name": "Local Band",
       "artwork_url": "https://picsum.photos/seed/local/400/400",
       "release_type": "ep",
-      "target_release_date": "2026-01-30T00:00:00Z",
+      "target_release_date": "2026-10-15T00:00:00Z",
       "like_count": 89,
       "comment_count": 12,
       "share_count": 7
+    },
+    {
+      "id": "mb-rg-006",
+      "title": "After Hours (Deluxe)",
+      "artist_name": "The Weeknd",
+      "artwork_url": "https://picsum.photos/seed/afterhoursdeluxe/400/400",
+      "release_type": "album",
+      "target_release_date": "2026-03-05T00:00:00Z",
+      "like_count": 23800,
+      "comment_count": 1640,
+      "share_count": 4020
+    },
+    {
+      "id": "mb-rg-007",
+      "title": "Untitled",
+      "artist_name": "Kendrick Lamar",
+      "artwork_url": "https://picsum.photos/seed/kdot-untitled/400/400",
+      "release_type": "album",
+      "target_release_date": "2026-04-12T00:00:00Z",
+      "like_count": 31500,
+      "comment_count": 2805,
+      "share_count": 6200
+    },
+    {
+      "id": "mb-rg-008",
+      "title": "Neon Skyline II",
+      "artist_name": "Japanese Breakfast",
+      "artwork_url": "https://picsum.photos/seed/neonskyline2/400/400",
+      "release_type": "album",
+      "target_release_date": "2026-06-20T00:00:00Z",
+      "like_count": 4200,
+      "comment_count": 318,
+      "share_count": 910
     }
   ]
 }
