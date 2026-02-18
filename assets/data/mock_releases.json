@@ -1,0 +1,59 @@
+{
+  "releases": [
+    {
+      "id": "mb-rg-001",
+      "title": "Vultures II",
+      "artist_name": "Kanye West & Ty Dolla $ign",
+      "artwork_url": "https://picsum.photos/seed/vultures2/400/400",
+      "release_type": "album",
+      "target_release_date": "2026-02-10T00:00:00Z",
+      "like_count": 12400,
+      "comment_count": 892,
+      "share_count": 2103
+    },
+    {
+      "id": "mb-rg-002",
+      "title": "TBD",
+      "artist_name": "Beyoncé",
+      "artwork_url": "https://picsum.photos/seed/beyonce/400/400",
+      "release_type": "album",
+      "target_release_date": "2026-02-20T00:00:00Z",
+      "like_count": 45200,
+      "comment_count": 3201,
+      "share_count": 8900
+    },
+    {
+      "id": "mb-rg-003",
+      "title": "Drop Test Single",
+      "artist_name": "Test Artist",
+      "artwork_url": "https://picsum.photos/seed/droptest/400/400",
+      "release_type": "single",
+      "target_release_date": "2026-02-13T20:08:00Z",
+      "like_count": 312,
+      "comment_count": 44,
+      "share_count": 28
+    },
+    {
+      "id": "mb-rg-004",
+      "title": "The Tortured Poets Department: The Anthology",
+      "artist_name": "Taylor Swift",
+      "artwork_url": "https://picsum.photos/seed/ttpd/400/400",
+      "release_type": "album",
+      "target_release_date": "2026-02-16T00:00:00Z",
+      "like_count": 67800,
+      "comment_count": 5102,
+      "share_count": 15200
+    },
+    {
+      "id": "mb-rg-005",
+      "title": "We Don't Know What We're Doing",
+      "artist_name": "Local Band",
+      "artwork_url": "https://picsum.photos/seed/local/400/400",
+      "release_type": "ep",
+      "target_release_date": "2026-01-30T00:00:00Z",
+      "like_count": 89,
+      "comment_count": 12,
+      "share_count": 7
+    }
+  ]
+}
