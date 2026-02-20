@@ -59,8 +59,35 @@ class _HypeDashboardState extends State<HypeDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF0F0F10),
       appBar: AppBar(
-        title: const Text('Hype Dashboard'),
+        title: const Text(
+          'hype',
+          style: TextStyle(
+            fontWeight: FontWeight.w900,
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
+        backgroundColor: const Color(0xFF0F0F10),
+        shape: const Border(
+          bottom: BorderSide.none,
+        ),
+        leading: const Icon(
+          Icons.calendar_today_outlined,
+          color: Colors.white,
+          size: 20,
+        ),
+        actions: const [
+          Icon(
+            Icons.settings_outlined,
+            color: Colors.white,
+            size: 20,
+          ),
+        ],
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -85,35 +112,54 @@ class _HypeDashboardState extends State<HypeDashboard> {
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Header: "DROPPING THIS WEEK:"
+                        // Section header: "DROPPING THIS WEEK"
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+                          padding: const EdgeInsets.only(left: 16, top: 16),
                           child: Text(
-                            'DROPPING THIS WEEK:',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
-                                ?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 0.5,
-                                ),
+                            'DROPPING THIS WEEK',
+                            style: const TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 1.5,
+                              color: Color(0xFF9CA3AF),
+                            ),
                           ),
                         ),
-                        // Horizontal carousel
+                        const SizedBox(height: 12),
+                        // Horizontal carousel: 16px edge padding, 16px between cards, snap physics
                         SizedBox(
-                          height: 320, // Fixed height for carousel
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            itemCount: _upcomingReleases.length,
-                            itemBuilder: (context, index) {
-                              final release = _upcomingReleases[index];
-                              return Padding(
-                                padding: const EdgeInsets.only(right: 12),
-                                child: ReleaseCard(
-                                  release: release,
-                                  width: 220,
+                          height: 210,
+                          child: LayoutBuilder(
+                            builder: (context, _) {
+                              const cardWidth = 140.0;
+                              const gap = 16.0;
+                              final screenWidth =
+                                  MediaQuery.of(context).size.width;
+                              final viewportFraction =
+                                  (cardWidth + gap) / screenWidth;
+                              return PageView.builder(
+                                padEnds: false,
+                                controller: PageController(
+                                  viewportFraction: viewportFraction,
                                 ),
+                                physics: const PageScrollPhysics(),
+                                itemCount: _upcomingReleases.length,
+                                itemBuilder: (context, index) {
+                                  final release = _upcomingReleases[index];
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                      left: index == 0 ? 16 : gap / 2,
+                                      right: index ==
+                                              _upcomingReleases.length - 1
+                                          ? 16
+                                          : gap / 2,
+                                    ),
+                                    child: ReleaseCard(
+                                      release: release,
+                                      width: cardWidth,
+                                    ),
+                                  );
+                                },
                               );
                             },
                           ),

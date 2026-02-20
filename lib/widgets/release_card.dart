@@ -1,30 +1,24 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import '../models/music_release.dart';
 
-/// Widget displaying a music release card with countdown timer and artwork.
-/// Used in the horizontal "Dropping This Week" carousel.
 class ReleaseCard extends StatefulWidget {
   const ReleaseCard({
     super.key,
     required this.release,
-    this.width = 220,
-    this.height = 320,
+    this.width = 150, // Updated default width for a sleeker look
   });
 
   final MusicRelease release;
   final double width;
-  /// Card height; must match carousel row height to avoid overflow.
-  final double height;
 
   @override
   State<ReleaseCard> createState() => _ReleaseCardState();
 }
 
 class _ReleaseCardState extends State<ReleaseCard> {
-  static const double _artworkSize = 180;
-
+  static const Color _amberAccent = Color(0xFFFFB300);
+  
   Timer? _timer;
   Duration? _timeRemaining;
   bool _isReleased = false;
@@ -33,11 +27,8 @@ class _ReleaseCardState extends State<ReleaseCard> {
   void initState() {
     super.initState();
     _updateCountdown();
-    // Update countdown every second
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (mounted) {
-        _updateCountdown();
-      }
+      if (mounted) _updateCountdown();
     });
   }
 
@@ -48,104 +39,92 @@ class _ReleaseCardState extends State<ReleaseCard> {
   }
 
   void _updateCountdown() {
-    // Use UTC for comparison since targetReleaseDate is stored in UTC
     final now = DateTime.now().toUtc();
     final releaseDate = widget.release.targetReleaseDate;
     final difference = releaseDate.difference(now);
 
-    if (difference.isNegative) {
-      // Release date has passed
-      setState(() {
+    setState(() {
+      if (difference.isNegative) {
         _isReleased = true;
         _timeRemaining = null;
-      });
-    } else {
-      setState(() {
+      } else {
         _isReleased = false;
         _timeRemaining = difference;
-      });
-    }
+      }
+    });
   }
 
   String _formatCountdown(Duration duration) {
     final days = duration.inDays;
     final hours = duration.inHours.remainder(24);
     final minutes = duration.inMinutes.remainder(60);
-    final seconds = duration.inSeconds.remainder(60);
-
-    return '${days.toString().padLeft(2, '0')}D:'
-        '${hours.toString().padLeft(2, '0')}H:'
-        '${minutes.toString().padLeft(2, '0')}M:'
-        '${seconds.toString().padLeft(2, '0')}S';
+    return '${days}D ${hours}H ${minutes}M';
   }
+
+  static const Color _surfaceColor = Color(0xFF1A1A1C);
+  static const Color _secondaryGrey = Color(0xFF808080);
+
+  static const double _cardHeight = 210;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: widget.width,
-      height: widget.height,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Countdown timer or "Out Now" text (centered over the card)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: SizedBox(
-              width: double.infinity,
-              child: Center(
-                child: Text(
-                  _isReleased
-                      ? 'Out Now'
-                      : _timeRemaining != null
-                          ? _formatCountdown(_timeRemaining!)
-                          : 'Loading...',
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: _isReleased
-                            ? Colors.green
-                            : Theme.of(context).colorScheme.primary,
-                      ),
-                ),
-              ),
-            ),
-          ),
-          // Album artwork: fixed size, centered to align with countdown
-          Center(
-            child: SizedBox(
-              width: _artworkSize,
-              height: _artworkSize,
+      height: _cardHeight,
+      child: Container(
+        decoration: const BoxDecoration(
+          color: _surfaceColor,
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Artwork: fixed square at top (aspect ratio 1:1)
+            SizedBox(
+              width: widget.width,
+              height: widget.width,
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  // Album artwork
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16),
+                    ),
                     child: Image.network(
                       widget.release.artworkUrl,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          color: Colors.grey[300],
-                          child: const Icon(Icons.music_note, size: 48),
-                        );
-                      },
+                      width: double.infinity,
+                      height: double.infinity,
+                      errorBuilder: (context, error, stackTrace) =>
+                          Container(
+                        color: const Color(0xFF18181B),
+                        child: const Icon(Icons.music_note, color: Colors.white24),
+                      ),
                     ),
                   ),
-                  // Locked state overlay (desaturated effect)
+                  // Timer badge: tight #000000 pill at bottom-left, opacity 0.7
                   if (!_isReleased && _timeRemaining != null)
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
+                    Positioned(
+                      left: 8,
+                      bottom: 8,
                       child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.4),
-                          borderRadius: BorderRadius.circular(8.0),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 3,
                         ),
-                        child: const Center(
-                          child: Icon(
-                            Icons.lock_outline,
-                            color: Colors.white,
-                            size: 32,
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.7),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          _formatCountdown(_timeRemaining!),
+                          style: const TextStyle(
+                            color: _amberAccent,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10,
+                            letterSpacing: 0.5,
                           ),
                         ),
                       ),
@@ -153,28 +132,42 @@ class _ReleaseCardState extends State<ReleaseCard> {
                 ],
               ),
             ),
-          ),
-          const SizedBox(height: 8),
-          // Title (one line for symmetry with artist)
-          Text(
-            widget.release.title,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
+            // Text area: fixed height via Expanded for uniform card dimensions
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      widget.release.title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                        height: 1.1,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      widget.release.artistName,
+                      style: const TextStyle(
+                        color: _secondaryGrey,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(height: 4),
-          // Artist name
-          Text(
-            widget.release.artistName,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Colors.grey[600],
-                ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
